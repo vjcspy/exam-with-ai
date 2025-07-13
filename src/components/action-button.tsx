@@ -14,7 +14,7 @@ export function ActionButton({
   return (
     <button
       className={cn(
-        "h-12 px-4 text-sm font-medium border border-border rounded-sm transition-colors",
+        "h-full px-4 text-sm font-medium border border-border rounded-sm transition-colors flex items-center justify-center",
         variant === "default" 
           ? "bg-background text-foreground hover:bg-secondary" 
           : "bg-transparent hover:bg-secondary/10",

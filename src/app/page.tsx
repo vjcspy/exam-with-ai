@@ -67,45 +67,45 @@ export default function Home() {
               }}
             />
           ) : (
-            <div className="h-full flex flex-col justify-start items-start gap-4">
-              <div className="flex gap-2">
+            <div className="h-full grid grid-rows-2 gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 <ActionButton 
-                  className="w-32"
+                  className="w-full h-full"
                   onClick={() => console.log("Capture clicked")}
                 >
-                  <div className="flex items-center gap-2">
+                  <div className="w-full h-full flex items-center justify-center gap-2">
                     <Camera size={16} />
                     <span>Capture</span>
                   </div>
                 </ActionButton>
 
                 <ActionButton 
-                  className="w-32"
+                  className="w-full h-full"
                   onClick={toggleAlignment}
                 >
-                  <div className="flex items-center gap-2">
+                  <div className="w-full h-full flex items-center justify-center gap-2">
                     <AlignCenter size={16} />
                     <span>Align</span>
                   </div>
                 </ActionButton>
               </div>
 
-              <div className="flex gap-2">
+              <div className="grid grid-cols-2 gap-4">
                 <ActionButton 
-                  className="w-32"
+                  className="w-full h-full"
                   onClick={() => console.log("ASK RAG clicked")}
                 >
-                  <div className="flex items-center gap-2">
+                  <div className="w-full h-full flex items-center justify-center gap-2">
                     <BrainCircuit size={16} />
                     <span>ASK RAG</span>
                   </div>
                 </ActionButton>
 
                 <ActionButton 
-                  className="w-32"
+                  className="w-full h-full"
                   onClick={() => console.log("ASK clicked")}
                 >
-                  <div className="flex items-center gap-2">
+                  <div className="w-full h-full flex items-center justify-center gap-2">
                     <MessageSquare size={16} />
                     <span>ASK</span>
                   </div>

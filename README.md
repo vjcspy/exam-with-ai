@@ -30,7 +30,9 @@ The Home screen is divided vertically in a 50/50 ratio:
 - When in Align mode, shows a visual overlay of the selected area
 
 #### Bottom Section
-- Contains buttons aligned to the left (for easier one-handed use)
+- Contains buttons that expand to fill the entire bottom section
+- Buttons automatically resize based on the number of buttons displayed
+- Buttons maintain appropriate spacing to prevent accidental clicks
 - Buttons are arranged in two rows:
   - Row 1: Capture | Align
   - Row 2: ASK RAG | ASK
@@ -41,6 +43,10 @@ When the Align button is clicked:
 - The bottom section changes to display 4 sliders
 - These sliders control the selection area of the image (in percentages)
 - There are 2 vertical sliders and 2 horizontal sliders
+- The sliders are designed for easy touch interaction:
+  - Larger, more visible slider controls
+  - Percentage values displayed at both ends for better readability
+  - Clear visual feedback when interacting with sliders
 - Constraints are enforced:
   - The right slider value cannot be less than the left slider value
   - The bottom slider value cannot be less than the top slider value
@@ -48,6 +54,9 @@ When the Align button is clicked:
 - Below the sliders, there are Save and Cancel buttons:
   - Save: Saves the current alignment and returns to the Home screen
   - Cancel: Discards changes and returns to the Home screen
+  - Buttons are well-spaced to prevent accidental taps
+  - Full-width buttons with larger size for easier interaction
+  - Increased font size for better readability
 - The percentage values are saved for later use
 
 ## Component Structure

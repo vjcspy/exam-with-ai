@@ -46,66 +46,78 @@ export function ImageAlignment({
   };
 
   return (
-    <div className="w-full space-y-4 p-4">
-      <div className="flex items-center space-x-2">
-        <span className="w-16 text-xs">Left: {alignment.left}%</span>
+    <div className="w-full space-y-6 p-4">
+      <div className="flex flex-col space-y-2">
+        <div className="flex justify-between items-center">
+          <span className="text-sm font-medium">Left: {alignment.left}%</span>
+          <span className="text-sm font-medium">{alignment.left}%</span>
+        </div>
         <input
           type="range"
           min="0"
           max="99"
           value={alignment.left}
           onChange={(e) => handleSliderChange(e, "left")}
-          className="flex-1 h-1 bg-border rounded-sm appearance-none cursor-pointer"
+          className="w-full h-3 bg-border rounded-md appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50"
         />
       </div>
 
-      <div className="flex items-center space-x-2">
-        <span className="w-16 text-xs">Right: {alignment.right}%</span>
+      <div className="flex flex-col space-y-2">
+        <div className="flex justify-between items-center">
+          <span className="text-sm font-medium">Right: {alignment.right}%</span>
+          <span className="text-sm font-medium">{alignment.right}%</span>
+        </div>
         <input
           type="range"
           min="1"
           max="100"
           value={alignment.right}
           onChange={(e) => handleSliderChange(e, "right")}
-          className="flex-1 h-1 bg-border rounded-sm appearance-none cursor-pointer"
+          className="w-full h-3 bg-border rounded-md appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50"
         />
       </div>
 
-      <div className="flex items-center space-x-2">
-        <span className="w-16 text-xs">Top: {alignment.top}%</span>
+      <div className="flex flex-col space-y-2">
+        <div className="flex justify-between items-center">
+          <span className="text-sm font-medium">Top: {alignment.top}%</span>
+          <span className="text-sm font-medium">{alignment.top}%</span>
+        </div>
         <input
           type="range"
           min="0"
           max="99"
           value={alignment.top}
           onChange={(e) => handleSliderChange(e, "top")}
-          className="flex-1 h-1 bg-border rounded-sm appearance-none cursor-pointer"
+          className="w-full h-3 bg-border rounded-md appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50"
         />
       </div>
 
-      <div className="flex items-center space-x-2">
-        <span className="w-16 text-xs">Bottom: {alignment.bottom}%</span>
+      <div className="flex flex-col space-y-2">
+        <div className="flex justify-between items-center">
+          <span className="text-sm font-medium">Bottom: {alignment.bottom}%</span>
+          <span className="text-sm font-medium">{alignment.bottom}%</span>
+        </div>
         <input
           type="range"
           min="1"
           max="100"
           value={alignment.bottom}
           onChange={(e) => handleSliderChange(e, "bottom")}
-          className="flex-1 h-1 bg-border rounded-sm appearance-none cursor-pointer"
+          className="w-full h-3 bg-border rounded-md appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50"
         />
       </div>
 
       {/* Save and Cancel buttons */}
-      <div className="flex gap-2 mt-6">
+      <div className="flex justify-between gap-6 mt-8">
         <ActionButton 
-          className="w-32"
+          className="flex-1 h-14 text-base py-4"
           onClick={onSave}
         >
           <span>Save</span>
         </ActionButton>
 
         <ActionButton 
-          className="w-32"
+          className="flex-1 h-14 text-base py-4"
           onClick={onCancel}
           variant="outline"
         >
