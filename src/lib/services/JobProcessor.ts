@@ -1,41 +1,44 @@
-import {Subscription} from "rxjs";
-import {Job} from "@/lib/types/jobs";
+import { concatMap, from, Subscription, timer } from 'rxjs';
+
+import { Job } from '@/lib/types/jobs';
+import { fetchData } from '@/lib/utils';
 
 class JobProcessor {
-    private subscription: Subscription | undefined;
+  private subscription: Subscription | undefined;
 
-    start() {
-        if (this.subscription) {
-            return;
-        }
-
-        // this.subscription =  interval(10).pipe(concatMap(fromPromise(this.process()))).subscribe(
-        //      {
-        //          next(x) {
-        //              console.log('got value ' + x);
-        //          },
-        //          error(err) {
-        //              console.error('something wrong occurred: ' + err);
-        //          },
-        //          complete() {
-        //              console.log('done');
-        //          },
-        //      }
-        //  )
-        this.process();
+  start() {
+    if (this.subscription) {
+      return;
     }
+    this.subscription = timer(0, 30 * 1000)
+      .pipe(concatMap(() => from(this.process())))
+      .subscribe({
+        next(x) {
+          console.log('got value ', x);
+        },
+        error(err) {
+          console.error('something wrong occurred: ' + err);
+        },
+        complete() {
+          console.log('done');
+        },
+      });
+  }
 
-    private async process(): Promise<Job | null> {
-        try {
-            const jobData = await fetch('/api/jobs');
-            console.log(await jobData.json());
-            return await jobData.json();
-        } catch (error) {
-            console.error("Error processing job", error);
-            return null;
-        }
+  private async process(): Promise<any> {
+    console.log('Processing job');
+    const [job, error] = await fetchData<Job>(`/api/jobs`);
 
+    if (error) {
+      console.error('Error fetching job:', error);
+      return null;
     }
+    switch (job.status) {
+      case 'AGENT_SCREEN_CAPTURE':
+        break;
+    }
+    return job;
+  }
 }
 
 export const jobProcessor = new JobProcessor();

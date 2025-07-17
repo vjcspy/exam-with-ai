@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Image from "next/image";
+import Image from 'next/image';
+import { useState } from 'react';
 
 interface ImageTextToggleProps {
   imageSrc: string;
@@ -13,29 +13,23 @@ interface ImageTextToggleProps {
 export function ImageTextToggle({
   imageSrc,
   text,
-  imageAlt = "Image",
-  className = "",
+  imageAlt = 'Image',
+  className = '',
 }: ImageTextToggleProps) {
   const [showImage, setShowImage] = useState(true);
-  
+
   const toggleView = () => {
     setShowImage(!showImage);
   };
 
   return (
-    <div 
+    <div
       className={`w-full h-full flex items-center justify-center cursor-pointer ${className}`}
       onClick={toggleView}
     >
       {showImage ? (
         <div className="relative w-full h-full">
-          <Image
-            src={imageSrc}
-            alt={imageAlt}
-            fill
-            className="object-contain"
-            priority
-          />
+          <Image src={imageSrc} alt={imageAlt} fill className="object-contain" priority />
         </div>
       ) : (
         <div className="w-full h-full flex items-center justify-center p-4 overflow-auto">

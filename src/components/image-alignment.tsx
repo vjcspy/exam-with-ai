@@ -1,10 +1,16 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { ActionButton } from "./action-button";
+import { useState } from 'react';
+
+import { ActionButton } from './action-button';
 
 interface ImageAlignmentProps {
-  onAlignmentChange: (alignment: { top: number; right: number; bottom: number; left: number }) => void;
+  onAlignmentChange: (alignment: {
+    top: number;
+    right: number;
+    bottom: number;
+    left: number;
+  }) => void;
   initialAlignment?: { top: number; right: number; bottom: number; left: number };
   onCancel?: () => void;
   onSave?: () => void;
@@ -20,23 +26,23 @@ export function ImageAlignment({
 
   const handleSliderChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    type: "top" | "right" | "bottom" | "left"
+    type: 'top' | 'right' | 'bottom' | 'left'
   ) => {
     const value = parseInt(e.target.value, 10);
 
-    let newAlignment = { ...alignment };
+    const newAlignment = { ...alignment };
 
     // Apply constraints
-    if (type === "left" && value >= alignment.right) {
+    if (type === 'left' && value >= alignment.right) {
       return; // Left can't be greater than or equal to right
     }
-    if (type === "right" && value <= alignment.left) {
+    if (type === 'right' && value <= alignment.left) {
       return; // Right can't be less than or equal to left
     }
-    if (type === "top" && value >= alignment.bottom) {
+    if (type === 'top' && value >= alignment.bottom) {
       return; // Top can't be greater than or equal to bottom
     }
-    if (type === "bottom" && value <= alignment.top) {
+    if (type === 'bottom' && value <= alignment.top) {
       return; // Bottom can't be less than or equal to top
     }
 
@@ -57,7 +63,7 @@ export function ImageAlignment({
           min="0"
           max="99"
           value={alignment.left}
-          onChange={(e) => handleSliderChange(e, "left")}
+          onChange={(e) => handleSliderChange(e, 'left')}
           className="w-full h-3 bg-border rounded-md appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50"
         />
       </div>
@@ -72,7 +78,7 @@ export function ImageAlignment({
           min="1"
           max="100"
           value={alignment.right}
-          onChange={(e) => handleSliderChange(e, "right")}
+          onChange={(e) => handleSliderChange(e, 'right')}
           className="w-full h-3 bg-border rounded-md appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50"
         />
       </div>
@@ -87,7 +93,7 @@ export function ImageAlignment({
           min="0"
           max="99"
           value={alignment.top}
-          onChange={(e) => handleSliderChange(e, "top")}
+          onChange={(e) => handleSliderChange(e, 'top')}
           className="w-full h-3 bg-border rounded-md appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50"
         />
       </div>
@@ -102,25 +108,18 @@ export function ImageAlignment({
           min="1"
           max="100"
           value={alignment.bottom}
-          onChange={(e) => handleSliderChange(e, "bottom")}
+          onChange={(e) => handleSliderChange(e, 'bottom')}
           className="w-full h-3 bg-border rounded-md appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50"
         />
       </div>
 
       {/* Save and Cancel buttons */}
       <div className="flex justify-between gap-6 mt-8">
-        <ActionButton 
-          className="flex-1 h-14 text-base py-4"
-          onClick={onSave}
-        >
+        <ActionButton className="flex-1 h-14 text-base py-4" onClick={onSave}>
           <span>Save</span>
         </ActionButton>
 
-        <ActionButton 
-          className="flex-1 h-14 text-base py-4"
-          onClick={onCancel}
-          variant="outline"
-        >
+        <ActionButton className="flex-1 h-14 text-base py-4" onClick={onCancel} variant="outline">
           <span>Cancel</span>
         </ActionButton>
       </div>
