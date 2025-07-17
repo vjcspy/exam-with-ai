@@ -1,7 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+
+import { toggleImage } from '@/lib/redux/slices/uiSlice';
+import { useAppDispatch, useAppSelector } from '@/lib/redux/store';
 
 interface ImageTextToggleProps {
   imageSrc: string;
@@ -16,10 +18,11 @@ export function ImageTextToggle({
   imageAlt = 'Image',
   className = '',
 }: ImageTextToggleProps) {
-  const [showImage, setShowImage] = useState(true);
+  const dispatch = useAppDispatch();
+  const showImage = useAppSelector((state) => state.ui.showImage);
 
   const toggleView = () => {
-    setShowImage(!showImage);
+    dispatch(toggleImage());
   };
 
   return (

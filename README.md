@@ -7,6 +7,7 @@ This project is designed specifically for mobile devices, with a focus on optimi
 - Next.js 15.3.5
 - React 19
 - TypeScript
+- Redux (@reduxjs/toolkit, react-redux)
 - Tailwind CSS
 - Shadcn UI components
 
@@ -17,6 +18,14 @@ The design follows a minimalist, coder/vim-inspired aesthetic with:
 - Black and white/gray color scheme for good contrast
 - Thin borders and buttons
 - Clean, simple layouts
+
+## State Management
+
+The application uses Redux for centralized state management:
+
+- UI state (image/text toggle, alignment mode)
+- Content state (sample image, text)
+- Alignment state (selection coordinates)
 
 ## Navigation
 
@@ -70,8 +79,9 @@ When the Align button is clicked:
 
 ## Component Structure
 
+- `ReduxProvider`: Wraps the application to provide Redux store access
 - `NavigationBar`: Bottom navigation with Home and Settings tabs
-- `ImageTextToggle`: Toggles between image and text view
+- `ImageTextToggle`: Toggles between image and text view using Redux
 - `ActionButton`: Styled buttons for actions
 - `ImageAlignment`: Sliders for image area selection
 - `ImageWithSelection`: Displays image with selection overlay
