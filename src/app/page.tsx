@@ -18,6 +18,7 @@ export default function Home() {
   const { showAlignment, showImage } = useAppSelector((state) => state.ui);
   const alignment = useAppSelector((state) => state.alignment);
   const { sampleImage, sampleText } = useAppSelector((state) => state.content);
+  const { job } = useAppSelector((state) => state.job);
 
   const handleAlignmentChange = (newAlignment: {
     top: number;
@@ -34,8 +35,12 @@ export default function Home() {
   };
 
   useEffect(() => {
+    // Provide the dispatch function to the JobProcessor
+    jobProcessor.setDispatch(dispatch);
     jobProcessor.start();
-  }, []);
+  }, [dispatch]);
+
+  console.log('Job:', job);
 
   return (
     <div className="flex flex-col h-screen bg-background text-foreground">
