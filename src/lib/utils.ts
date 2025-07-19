@@ -11,9 +11,12 @@ export function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export async function fetchData(url: string): Promise<[any, null] | [null, Error]> {
+export async function fetchData(
+  url: string,
+  options?: RequestInit
+): Promise<[any, null] | [null, Error]> {
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, options);
     if (!response.ok) {
       return [
         null,

@@ -9,6 +9,7 @@ import { ImageTextToggle } from '@/components/image-text-toggle';
 import { ImageWithSelection } from '@/components/image-with-selection';
 import { NavigationBar } from '@/components/navigation-bar';
 import { useCurrentImage } from '@/hooks/useCurrentImage';
+import { useJobActions } from '@/hooks/useJobActions';
 import { setAlignment } from '@/lib/redux/slices/alignmentSlice';
 import { setShowAlignment, toggleAlignment } from '@/lib/redux/slices/uiSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/store';
@@ -16,11 +17,13 @@ import { jobProcessor } from '@/lib/services/JobProcessor';
 
 export default function Home() {
   const dispatch = useAppDispatch();
-  const { showAlignment, showImage } = useAppSelector((state) => state.ui);
+  const { showAlignment } = useAppSelector((state) => state.ui);
   const alignment = useAppSelector((state) => state.alignment);
   const { sampleText } = useAppSelector((state) => state.content);
   const { job } = useAppSelector((state) => state.job);
   const currentImage = useCurrentImage();
+  const { capture, loading } = useJobActions();
+
   const handleAlignmentChange = (newAlignment: {
     top: number;
     right: number;
@@ -73,13 +76,10 @@ export default function Home() {
           ) : (
             <div className="h-full grid grid-rows-2 gap-4">
               <div className="grid grid-cols-2 gap-4">
-                <ActionButton
-                  className="w-full h-full"
-                  onClick={() => console.log('Capture clicked')}
-                >
+                <ActionButton className="w-full h-full" onClick={capture} disabled={loading}>
                   <div className="w-full h-full flex items-center justify-center gap-2">
                     <Camera size={16} />
-                    <span>Capture</span>
+                    <span>{loading ? 'Capturing...' : 'Capture'}</span>
                   </div>
                 </ActionButton>
 

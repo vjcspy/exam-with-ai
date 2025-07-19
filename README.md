@@ -93,13 +93,8 @@ When the Align button is clicked:
 3. Click the Align button to enter alignment mode
 4. Use the sliders to select a specific area of the image
 5. The selected area is visualized on the image
+6. Click the **Capture** button to trigger an API call to capture an image based on the current settings (capture mode and provider).
 
 ## Development
 
 To run the development server:
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
