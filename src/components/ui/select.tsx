@@ -1,6 +1,6 @@
 'use client';
 
-import { SelectHTMLAttributes, forwardRef } from 'react';
+import { forwardRef, SelectHTMLAttributes } from 'react';
 
 import { cn } from '@/lib/utils';
 

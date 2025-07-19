@@ -4,20 +4,23 @@ import { useMemo } from 'react';
 
 import { NavigationBar } from '@/components/navigation-bar';
 import { Select } from '@/components/ui/select';
-import { CommonValue } from '@/lib/values/common.value';
-import { setCaptureMode, setCaptureWithProvider, setRuntimeMode } from '@/lib/redux/slices/jobSlice';
+import {
+  setCaptureMode,
+  setCaptureWithProvider,
+  setRuntimeMode,
+} from '@/lib/redux/slices/jobSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/store';
+import { CommonValue } from '@/lib/values/common.value';
 
 export default function Settings() {
   const dispatch = useAppDispatch();
   const jobState = useAppSelector((state) => state.job);
-  
+
   // Filter job data to get image provider keys
   const imageProviderKeys = useMemo(() => {
     if (!jobState.job?.data) return [];
-    
-    return Object.keys(jobState.job.data)
-      .filter(key => key.startsWith('IMAGE_PROVIDER'));
+
+    return Object.keys(jobState.job.data).filter((key) => key.startsWith('IMAGE_PROVIDER'));
   }, [jobState.job?.data]);
 
   return (
@@ -30,7 +33,7 @@ export default function Settings() {
             {JSON.stringify(jobState, null, 2)}
           </pre>
         </div>
-        
+
         {/* Image Provider Block */}
         <div className="mb-6 border border-border rounded-sm p-4">
           <h2 className="text-lg font-medium mb-2">Image Providers</h2>
@@ -41,8 +44,8 @@ export default function Settings() {
                   <div className="text-xs mb-1 text-center">{key}</div>
                   <div className="border border-border rounded-sm w-full aspect-square flex items-center justify-center overflow-hidden">
                     {jobState.job?.data[key] ? (
-                      <img 
-                        src={CommonValue.getCurrentJobImage(jobState.job.data[key])} 
+                      <img
+                        src={CommonValue.getCurrentJobImage(jobState.job.data[key])}
                         alt={key}
                         className="max-w-full max-h-full object-contain"
                       />
@@ -59,14 +62,14 @@ export default function Settings() {
             )}
           </div>
         </div>
-        
+
         {/* Configuration Options */}
         <div className="mb-6 border border-border rounded-sm p-4">
           <h2 className="text-lg font-medium mb-4">Configuration</h2>
-          
+
           {/* Capture Mode */}
           <div className="mb-4">
-            <Select 
+            <Select
               label="Capture Mode"
               value={jobState.captureMode}
               onChange={(e) => dispatch(setCaptureMode(e.target.value as 'specific' | 'all'))}
@@ -76,14 +79,14 @@ export default function Settings() {
               <option value="all">All</option>
             </Select>
           </div>
-          
+
           {/* Capture With Provider */}
           <div className="mb-4">
-            <Select 
+            <Select
               label="Capture With Provider"
               value={jobState.captureWithProvider || ''}
               onChange={(e) => {
-                const value = e.target.value === '' ? null : e.target.value as 'DirectX';
+                const value = e.target.value === '' ? null : (e.target.value as 'DirectX');
                 dispatch(setCaptureWithProvider(value));
               }}
               className="w-full"
@@ -92,10 +95,10 @@ export default function Settings() {
               <option value="DirectX">DirectX</option>
             </Select>
           </div>
-          
+
           {/* Runtime Mode */}
           <div className="mb-4">
-            <Select 
+            <Select
               label="Runtime Mode"
               value={jobState.runtimeMode}
               onChange={(e) => dispatch(setRuntimeMode(e.target.value as 'CLI' | 'SERVICE'))}
@@ -107,7 +110,7 @@ export default function Settings() {
           </div>
         </div>
       </div>
-      
+
       {/* Navigation bar */}
       <NavigationBar />
     </div>
