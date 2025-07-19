@@ -13,7 +13,7 @@ interface ImageAlignmentProps {
   }) => void;
   initialAlignment?: { top: number; right: number; bottom: number; left: number };
   onCancel?: () => void;
-  onSave?: () => void;
+  onSave?: (alignment: any) => void;
 }
 
 export function ImageAlignment({

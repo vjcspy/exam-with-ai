@@ -9,8 +9,8 @@ import { ImageTextToggle } from '@/components/image-text-toggle';
 import { ImageWithSelection } from '@/components/image-with-selection';
 import { NavigationBar } from '@/components/navigation-bar';
 import { useCurrentImage } from '@/hooks/useCurrentImage';
+import { useImageAlignmentActions } from '@/hooks/useImageAlignmentActions';
 import { useJobActions } from '@/hooks/useJobActions';
-import { setAlignment } from '@/lib/redux/slices/alignmentSlice';
 import { setShowAlignment, toggleAlignment } from '@/lib/redux/slices/uiSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/store';
 import { jobProcessor } from '@/lib/services/JobProcessor';
@@ -24,15 +24,9 @@ export default function Home() {
   const currentImage = useCurrentImage();
   const { capture, loading } = useJobActions();
 
-  const handleAlignmentChange = (newAlignment: {
-    top: number;
-    right: number;
-    bottom: number;
-    left: number;
-  }) => {
-    dispatch(setAlignment(newAlignment));
-    // In a real application, you might want to save this alignment for later use
-  };
+  const {
+    actions: { handleAlignmentChange },
+  } = useImageAlignmentActions();
 
   const handleToggleAlignment = () => {
     dispatch(toggleAlignment());
@@ -47,11 +41,11 @@ export default function Home() {
   const ImageBlock = useMemo(() => {
     if (!currentImage) return <>{JSON.stringify(job, null, 2)}</>;
     if (showAlignment) {
-      return <ImageWithSelection imageSrc={currentImage} selection={alignment} />;
+      return <ImageWithSelection imageSrc={currentImage} />;
     } else {
       return <ImageTextToggle imageSrc={currentImage} text={sampleText} />;
     }
-  }, [showAlignment, alignment, sampleText, currentImage, job]);
+  }, [showAlignment, sampleText, currentImage, job]);
 
   return (
     <div className="flex flex-col h-screen bg-background text-foreground">

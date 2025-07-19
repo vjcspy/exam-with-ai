@@ -14,7 +14,6 @@ export const useCurrentImage = () => {
       : null;
   } else {
     const key = `IMAGE_PROVIDER|${jobState.captureWithProvider?.toUpperCase()}|${jobState.runtimeMode.toUpperCase()}`;
-    console.log('Get image from key: ', key);
 
     const imageName = jobState.job.data[key];
     return !!imageName ? CommonValue.getCurrentJobImage(imageName) : null;

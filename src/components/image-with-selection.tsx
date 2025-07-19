@@ -2,19 +2,20 @@
 
 import Image from 'next/image';
 
+import { useAppSelector } from '@/lib/redux/store';
+
 interface ImageWithSelectionProps {
   imageSrc: string;
   imageAlt?: string;
-  selection: { top: number; right: number; bottom: number; left: number };
   className?: string;
 }
 
 export function ImageWithSelection({
   imageSrc,
   imageAlt = 'Image',
-  selection,
   className = '',
 }: ImageWithSelectionProps) {
+  const selection = useAppSelector((state) => state.alignment);
   // Calculate selection overlay position and size
   const selectionStyle = {
     top: `${selection.top}%`,
