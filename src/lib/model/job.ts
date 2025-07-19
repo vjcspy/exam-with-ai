@@ -1,6 +1,8 @@
 import { Expose, instanceToPlain } from 'class-transformer';
 import { IsDateString, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
+import { JobStatus } from '@/lib/types/job';
+
 /**
  * Interface defining the structure of a Job
  * This ensures Job objects are serializable for Redux
@@ -11,7 +13,7 @@ export interface IJob {
   error_message: string | null;
   job_id: string;
   job_name: string;
-  status: string;
+  status: JobStatus;
   updated_at: string;
 
   toJSON(): IJob;
@@ -49,7 +51,7 @@ export class Job implements IJob {
   @Expose()
   @IsString()
   @IsNotEmpty()
-  status: string;
+  status: JobStatus;
 
   @Expose()
   @IsDateString()

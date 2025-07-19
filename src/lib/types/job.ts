@@ -1,0 +1,3 @@
+export enum JobStatus {
+  AGENT_SCREEN_CAPTURE = 'AGENT_SCREEN_CAPTURE',
+}

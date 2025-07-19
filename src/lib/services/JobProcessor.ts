@@ -3,7 +3,9 @@ import { concatMap, from, Subscription, timer } from 'rxjs';
 import { IJob, Job } from '@/lib/model/job';
 import { setJob } from '@/lib/redux/slices/jobSlice';
 import { AppDispatch } from '@/lib/redux/store';
+import { JobStatus } from '@/lib/types/job';
 import { fetchData, parseToModel } from '@/lib/utils';
+import { CommonValue } from '@/lib/values/common.value';
 
 class JobProcessor {
   private subscription: Subscription | undefined;
@@ -35,7 +37,7 @@ class JobProcessor {
   private async process(): Promise<IJob | null> {
     console.log('Processing job');
     // Step 1: Fetch raw data
-    const [rawData, fetchError] = await fetchData(`/api/jobs`);
+    const [rawData, fetchError] = await fetchData(CommonValue.getJobUrl());
 
     if (fetchError) {
       console.error('Error fetching job:', fetchError);
@@ -56,7 +58,7 @@ class JobProcessor {
     }
 
     switch (job.status) {
-      case 'AGENT_SCREEN_CAPTURE':
+      case JobStatus.AGENT_SCREEN_CAPTURE:
         break;
     }
     return job;
