@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { Job } from '@/lib/types/jobs';
+import { IJob } from '@/lib/model/job';
 
 // Define the initial state
 export type JobState = {
-  job: Job | null;
+  job: IJob | null;
 };
 const initialState: JobState = {
   job: null,
@@ -14,7 +14,7 @@ export const jobSlice = createSlice({
   name: 'job',
   initialState,
   reducers: {
-    setJob: (state, action: PayloadAction<Job>) => {
+    setJob: (state, action: PayloadAction<IJob>) => {
       state.job = action.payload;
     },
   },

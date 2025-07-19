@@ -1,9 +1,9 @@
 import { concatMap, from, Subscription, timer } from 'rxjs';
 
+import { IJob, Job } from '@/lib/model/job';
 import { setJob } from '@/lib/redux/slices/jobSlice';
 import { AppDispatch } from '@/lib/redux/store';
-import { Job } from '@/lib/types/jobs';
-import { fetchData } from '@/lib/utils';
+import { fetchData, parseToModel } from '@/lib/utils';
 
 class JobProcessor {
   private subscription: Subscription | undefined;
@@ -32,18 +32,27 @@ class JobProcessor {
       });
   }
 
-  private async process(): Promise<any> {
+  private async process(): Promise<IJob | null> {
     console.log('Processing job');
-    const [job, error] = await fetchData<Job>(`/api/jobs`);
+    // Step 1: Fetch raw data
+    const [rawData, fetchError] = await fetchData(`/api/jobs`);
 
-    if (error) {
-      console.error('Error fetching job:', error);
+    if (fetchError) {
+      console.error('Error fetching job:', fetchError);
       return null;
     }
 
-    // Save the job to Redux state if dispatch is available
+    // Step 2: Parse and validate the data
+    const [job, parseError] = await parseToModel<IJob>(rawData, Job);
+
+    if (parseError) {
+      console.error('Error parsing job data:', parseError);
+      return null;
+    }
+
+    // Store the job in Redux
     if (this.dispatch && job) {
-      this.dispatch(setJob(job));
+      this.dispatch(setJob(job.toJSON()));
     }
 
     switch (job.status) {
