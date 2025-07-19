@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useMemo } from 'react';
 
 import { NavigationBar } from '@/components/navigation-bar';
@@ -21,19 +22,11 @@ export default function Settings() {
     if (!jobState.job?.data) return [];
 
     return Object.keys(jobState.job.data).filter((key) => key.startsWith('IMAGE_PROVIDER'));
-  }, [jobState.job?.data]);
+  }, [jobState.job]);
 
   return (
     <div className="flex flex-col h-screen bg-background text-foreground">
       <div className="flex-1 flex flex-col pb-16 p-4 overflow-auto">
-        {/* Job State Block */}
-        <div className="mb-6 border border-border rounded-sm p-4">
-          <h2 className="text-lg font-medium mb-2">Job State</h2>
-          <pre className="text-xs overflow-auto bg-secondary/20 p-2 rounded-sm">
-            {JSON.stringify(jobState, null, 2)}
-          </pre>
-        </div>
-
         {/* Image Provider Block */}
         <div className="mb-6 border border-border rounded-sm p-4">
           <h2 className="text-lg font-medium mb-2">Image Providers</h2>
@@ -42,12 +35,16 @@ export default function Settings() {
               imageProviderKeys.map((key) => (
                 <div key={key} className="flex flex-col items-center">
                   <div className="text-xs mb-1 text-center">{key}</div>
-                  <div className="border border-border rounded-sm w-full aspect-square flex items-center justify-center overflow-hidden">
+                  {/* Thêm 'relative' vào phần tử cha của Image */}
+                  <div className="border border-border rounded-sm w-full aspect-square flex items-center justify-center overflow-hidden relative">
                     {jobState.job?.data[key] ? (
-                      <img
+                      <Image
                         src={CommonValue.getCurrentJobImage(jobState.job.data[key])}
                         alt={key}
-                        className="max-w-full max-h-full object-contain"
+                        fill={true} // Sử dụng thuộc tính fill
+                        // Sử dụng object-cover để ảnh lấp đầy và có thể bị cắt
+                        // Hoặc object-contain nếu bạn muốn ảnh vừa vặn và giữ tỉ lệ, có thể có khoảng trống
+                        className="object-cover"
                       />
                     ) : (
                       <span className="text-xs text-muted-foreground">No image</span>
@@ -108,6 +105,14 @@ export default function Settings() {
               <option value="SERVICE">SERVICE</option>
             </Select>
           </div>
+        </div>
+
+        {/* Job State Block */}
+        <div className="mb-6 border border-border rounded-sm p-4">
+          <h2 className="text-lg font-medium mb-2">Job State</h2>
+          <pre className="text-xs overflow-auto bg-secondary/20 p-2 rounded-sm">
+            {JSON.stringify(jobState, null, 2)}
+          </pre>
         </div>
       </div>
 
