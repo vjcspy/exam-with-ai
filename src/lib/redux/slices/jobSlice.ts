@@ -35,11 +35,14 @@ export const jobSlice = createSlice({
     setCaptureWithProvider(state, action: PayloadAction<CaptureWithProvider>) {
       state.captureWithProvider = action.payload;
     },
+    setRuntimeMode(state, action: PayloadAction<RuntimeMode>) {
+      state.runtimeMode = action.payload;
+    },
   },
 });
 
 // Export actions
-export const { setJob } = jobSlice.actions;
+export const { setJob, setCaptureMode, setCaptureWithProvider, setRuntimeMode } = jobSlice.actions;
 
 // Export reducer
 export default jobSlice.reducer;

@@ -77,6 +77,31 @@ When the Align button is clicked:
   - Increased font size for better readability
 - The percentage values are saved for later use
 
+### 2. Settings Screen
+
+The Settings screen provides configuration options and displays job-related information:
+
+#### Job State Display
+
+- Shows a formatted JSON representation of the current job state
+- Includes all values from the JobState Redux store
+- Provides a quick overview of the current job configuration and status
+
+#### Image Providers Display
+
+- Displays a two-column grid of images from job.data
+- Filters keys that start with "IMAGE_PROVIDER"
+- Each image is displayed with its provider key as a caption
+- If an image is not available, shows a placeholder
+- Images are fetched using CommonValue.getCurrentJobImage(imageName)
+
+#### Configuration Options
+
+- **Capture Mode**: Select between "specific" and "all" modes
+- **Capture With Provider**: Select "DirectX" or "None"
+- **Runtime Mode**: Select between "CLI" and "SERVICE" modes
+- All configuration changes are immediately updated in the Redux store
+
 ## Component Structure
 
 - `ReduxProvider`: Wraps the application to provide Redux store access
@@ -85,6 +110,7 @@ When the Align button is clicked:
 - `ActionButton`: Styled buttons for actions
 - `ImageAlignment`: Sliders for image area selection
 - `ImageWithSelection`: Displays image with selection overlay
+- `Select`: Custom select component for configuration options in the Settings screen
 
 ## How to Use
 
@@ -93,7 +119,14 @@ When the Align button is clicked:
 3. Click the Align button to enter alignment mode
 4. Use the sliders to select a specific area of the image
 5. The selected area is visualized on the image
-6. Click the **Capture** button to trigger an API call to capture an image based on the current settings (capture mode and provider).
+6. Click the **Capture** button to trigger an API call to capture an image based on the current settings (capture mode and provider)
+7. Navigate to the Settings screen using the bottom navigation bar
+8. View the current job state in the Job State Display section
+9. Browse captured images in the Image Providers Display section
+10. Configure capture settings using the dropdown selects:
+    - Set Capture Mode to "specific" or "all"
+    - Set Capture With Provider to "DirectX" or "None"
+    - Set Runtime Mode to "CLI" or "SERVICE"
 
 ## Development
 
