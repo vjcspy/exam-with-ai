@@ -19,7 +19,7 @@ class JobProcessor {
     if (this.subscription) {
       return;
     }
-    this.subscription = timer(0, 30 * 1000)
+    this.subscription = timer(0, 5 * 1000)
       .pipe(concatMap(() => from(this.process())))
       .subscribe({
         next(x) {
