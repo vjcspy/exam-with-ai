@@ -22,8 +22,8 @@ class JobProcessor {
     this.subscription = timer(0, 5 * 1000)
       .pipe(concatMap(() => from(this.process())))
       .subscribe({
-        next(x) {
-          console.log('got value ', x);
+        next(_) {
+          // console.log('got value ', x);
         },
         error(err) {
           console.error('something wrong occurred: ' + err);
@@ -35,7 +35,7 @@ class JobProcessor {
   }
 
   private async process(): Promise<IJob | null> {
-    console.log('Processing job');
+    // console.log('Processing job');
     // Step 1: Fetch raw data
     const [rawData, fetchError] = await fetchData(CommonValue.getJobUrl());
 

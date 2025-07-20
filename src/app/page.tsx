@@ -4,6 +4,7 @@ import { AlignCenter, BrainCircuit, Camera, MessageSquare } from 'lucide-react';
 import { useEffect, useMemo } from 'react';
 
 import { ActionButton } from '@/components/action-button';
+import { ConfirmActionButton } from '@/components/confirm-action-button';
 import { ImageAlignment } from '@/components/image-alignment';
 import { ImageTextToggle } from '@/components/image-text-toggle';
 import { ImageWithSelection } from '@/components/image-with-selection';
@@ -75,16 +76,17 @@ export default function Home() {
           ) : (
             <div className="h-full grid grid-rows-2 gap-4">
               <div className="grid grid-cols-2 gap-4">
-                <ActionButton
+                <ConfirmActionButton
                   className="w-full h-full"
-                  onClick={capture}
-                  disabled={isDisabledCapture}
-                >
-                  <div className="w-full h-full flex items-center justify-center gap-2">
-                    <Camera size={16} />
-                    <span>{isDisabledCapture ? 'DISABLED' : 'Capture'}</span>
-                  </div>
-                </ActionButton>
+                  onSubmit={capture}
+                  isDisabled={isDisabledCapture}
+                  normalText={
+                    <div className="w-full h-full flex items-center justify-center gap-2">
+                      <Camera size={16} />
+                      <span>{isDisabledCapture ? 'Capture' : 'Capture'}</span>
+                    </div>
+                  }
+                />
 
                 <ActionButton className="w-full h-full" onClick={handleToggleAlignment}>
                   <div className="w-full h-full flex items-center justify-center gap-2">
@@ -95,12 +97,17 @@ export default function Home() {
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <ActionButton className="w-full h-full" onClick={askRAG} disabled={isDisableAskRAG}>
-                  <div className="w-full h-full flex items-center justify-center gap-2">
-                    <BrainCircuit size={16} />
-                    <span>{isDisableAskRAG ? 'DISABLED' : 'ASK RAG'}</span>
-                  </div>
-                </ActionButton>
+                <ConfirmActionButton
+                  className="w-full h-full"
+                  onSubmit={askRAG}
+                  isDisabled={isDisableAskRAG}
+                  normalText={
+                    <div className="w-full h-full flex items-center justify-center gap-2">
+                      <BrainCircuit size={16} />
+                      <span>{isDisableAskRAG ? 'ASK RAG' : 'ASK RAG'}</span>
+                    </div>
+                  }
+                />
 
                 <ActionButton className="w-full h-full" onClick={() => console.log('ASK clicked')}>
                   <div className="w-full h-full flex items-center justify-center gap-2">
