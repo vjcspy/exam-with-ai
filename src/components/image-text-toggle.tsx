@@ -36,8 +36,6 @@ export function ImageTextToggle({
           imageSrc={imageSrc}
           imageAlt={imageAlt}
           selection={selection}
-          overlayOpacity={50}
-          borderClassName="border-primary"
           pointerEventsNone={true}
         />
       ) : (

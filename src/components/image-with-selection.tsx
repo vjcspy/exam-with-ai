@@ -23,8 +23,6 @@ export function ImageWithSelection({
       imageAlt={imageAlt}
       className={className}
       selection={selection}
-      overlayOpacity={50}
-      borderClassName="border-primary"
     />
   );
 }

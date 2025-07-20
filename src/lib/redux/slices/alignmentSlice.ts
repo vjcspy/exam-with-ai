@@ -7,12 +7,33 @@ export interface AlignmentState {
   left: number;
 }
 
-const initialState: AlignmentState = {
+// Default values if nothing is in localStorage
+const defaultAlignment: AlignmentState = {
   top: 0,
   right: 100,
   bottom: 100,
   left: 0,
 };
+
+// Load from localStorage if available, otherwise use default values
+const loadInitialState = (): AlignmentState => {
+  if (typeof window === 'undefined') {
+    return defaultAlignment; // Return default during SSR
+  }
+
+  try {
+    const savedAlignment = localStorage.getItem('alignment');
+    if (savedAlignment) {
+      return JSON.parse(savedAlignment) as AlignmentState;
+    }
+  } catch (error) {
+    console.error('Failed to load alignment from localStorage:', error);
+  }
+
+  return defaultAlignment;
+};
+
+const initialState: AlignmentState = loadInitialState();
 
 export const alignmentSlice = createSlice({
   name: 'alignment',

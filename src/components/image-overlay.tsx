@@ -13,8 +13,6 @@ interface ImageOverlayProps {
     bottom: number;
     left: number;
   };
-  overlayOpacity?: number;
-  borderClassName?: string;
   pointerEventsNone?: boolean;
 }
 
@@ -30,8 +28,6 @@ export function ImageOverlay({
   imageAlt = 'Image',
   className = '',
   selection,
-  overlayOpacity = 50,
-  borderClassName = 'border-primary',
   pointerEventsNone = false,
 }: ImageOverlayProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -145,7 +141,6 @@ export function ImageOverlay({
   };
 
   const overlayData = getOverlayStyles();
-  const overlayClass = `bg-black/${overlayOpacity}`;
   const pointerEventsClass = pointerEventsNone ? 'pointer-events-none' : '';
 
   return (
@@ -164,22 +159,19 @@ export function ImageOverlay({
       {imageDimensions && overlayData.overlayStyles && (
         <div className={`absolute inset-0 ${pointerEventsClass}`}>
           {/* Top overlay */}
-          <div className={`absolute ${overlayClass}`} style={overlayData.overlayStyles.top} />
+          <div className="absolute bg-black/75" style={overlayData.overlayStyles.top} />
 
           {/* Right overlay */}
-          <div className={`absolute ${overlayClass}`} style={overlayData.overlayStyles.right} />
+          <div className="absolute bg-black/75" style={overlayData.overlayStyles.right} />
 
           {/* Bottom overlay */}
-          <div className={`absolute ${overlayClass}`} style={overlayData.overlayStyles.bottom} />
+          <div className="absolute bg-black/75" style={overlayData.overlayStyles.bottom} />
 
           {/* Left overlay */}
-          <div className={`absolute ${overlayClass}`} style={overlayData.overlayStyles.left} />
+          <div className="absolute bg-black/75" style={overlayData.overlayStyles.left} />
 
           {/* Selection border */}
-          <div
-            className={`absolute border ${borderClassName}`}
-            style={overlayData.selectionStyle}
-          />
+          <div className="absolute border border-primary/70" style={overlayData.selectionStyle} />
         </div>
       )}
     </div>

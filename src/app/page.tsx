@@ -62,8 +62,13 @@ export default function Home() {
               initialAlignment={alignment}
               onCancel={() => dispatch(setShowAlignment(false))}
               onSave={() => {
-                // In a real application, you might want to do something with the alignment
-                console.log('Saving alignment:', alignment);
+                // Save alignment to local storage
+                try {
+                  localStorage.setItem('alignment', JSON.stringify(alignment));
+                  console.log('Saving alignment to localStorage:', alignment);
+                } catch (error) {
+                  console.error('Failed to save alignment to localStorage:', error);
+                }
                 dispatch(setShowAlignment(false));
               }}
             />
