@@ -57,7 +57,7 @@ export const useJobActions = () => {
         dispatch(setLoading(false));
       }, 3000);
     }
-  }, [captureMode, captureWithProvider, dispatch, forceShowTextAction]);
+  }, [captureMode, captureWithProvider, dispatch, forceShowImageAction]);
 
   const askRAG = useCallback(async () => {
     dispatch(setLoading(true));
