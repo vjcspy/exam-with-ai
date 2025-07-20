@@ -6,8 +6,10 @@ import { useMemo } from 'react';
 import { NavigationBar } from '@/components/navigation-bar';
 import { Select } from '@/components/ui/select';
 import {
+  setAutoAskRag,
   setCaptureMode,
   setCaptureWithProvider,
+  setForceCapture,
   setRuntimeMode,
 } from '@/lib/redux/slices/jobSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/store';
@@ -103,6 +105,32 @@ export default function Settings() {
             >
               <option value="CLI">CLI</option>
               <option value="SERVICE">SERVICE</option>
+            </Select>
+          </div>
+
+          {/* Force Capture */}
+          <div className="mb-4">
+            <Select
+              label="Force Capture"
+              value={jobState.forceCapture ? 'true' : 'false'}
+              onChange={(e) => dispatch(setForceCapture(e.target.value === 'true'))}
+              className="w-full"
+            >
+              <option value="true">Enable</option>
+              <option value="false">Disable</option>
+            </Select>
+          </div>
+
+          {/* Auto Ask RAG */}
+          <div className="mb-4">
+            <Select
+              label="Auto Ask RAG"
+              value={jobState.autoAskRag ? 'true' : 'false'}
+              onChange={(e) => dispatch(setAutoAskRag(e.target.value === 'true'))}
+              className="w-full"
+            >
+              <option value="true">Enable</option>
+              <option value="false">Disable</option>
             </Select>
           </div>
         </div>
