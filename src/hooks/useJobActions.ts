@@ -31,7 +31,8 @@ export const useJobActions = () => {
       return false;
     }
 
-    if (job?.status === JobStatus.AGENT_SCREEN_CAPTURE) {
+    // if it is capturing or AI is working
+    if (job?.status === JobStatus.AGENT_SCREEN_CAPTURE || job?.status === JobStatus.AGENT_AI) {
       return true;
     }
     return false;
