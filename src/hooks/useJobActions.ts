@@ -136,9 +136,10 @@ export const useJobActions = () => {
     if (!!imageName) {
       if (job?.status === JobStatus.AGENT_SCREEN_CAPTURE) {
         askRAG();
+        forceShowTextAction();
       }
     }
-  }, [job, imageName, askRAG, autoAskRag]);
+  }, [job, imageName, askRAG, autoAskRag, forceShowTextAction]);
 
   return { capture, askRAG, loading, error, state: { isDisabledCapture, isDisableAskRAG } };
 };
