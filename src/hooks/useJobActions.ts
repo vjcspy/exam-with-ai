@@ -79,11 +79,9 @@ export const useJobActions = () => {
       }
 
       dispatch(setJob(data as IJob));
-      return data;
     } catch (err: any) {
       dispatch(setError(err));
       console.error('Failed to capture job:', err);
-      return null;
     } finally {
       setTimeout(() => {
         dispatch(setLoading(false));
@@ -119,12 +117,10 @@ export const useJobActions = () => {
       if (fetchError) {
         throw fetchError;
       }
-
-      return data;
+      dispatch(setJob(data as IJob));
     } catch (err: any) {
       dispatch(setError(err));
       console.error('Failed to answer image question:', err);
-      return null;
     } finally {
       setTimeout(() => {
         dispatch(setLoading(false));
