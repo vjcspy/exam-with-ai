@@ -21,7 +21,7 @@ export function ImageTextToggle({
   const showImage = useAppSelector((state) => state.ui.showImage);
   const selection = useAppSelector((state) => state.alignment);
   const {
-    state: { ragAnswer, aiAnswer, question, errorMessage },
+    state: { ragAnswer, aiAnswer, question, errorMessage, processMessage },
   } = useJobAnswerData();
 
   const toggleView = () => {
@@ -42,20 +42,20 @@ export function ImageTextToggle({
         />
       ) : (
         <div className="w-full h-full flex flex-col p-4 overflow-auto">
-          {/* Question section - 60% height */}
-          <div className="flex-[0.6] flex items-start justify-start">
-            <p className="text-foreground text-sm text-left whitespace-pre-line">
-              Question: {question}
-            </p>
+          {/* Question section - 60% height with internal scroll */}
+          <div className="flex-[0.6] flex items-start justify-start overflow-hidden">
+            <div className="w-full h-full overflow-auto">
+              <p className="text-foreground text-sm text-left whitespace-pre-line">
+                {question ? question : processMessage}
+              </p>
+            </div>
           </div>
-
           {/* RAG section - 20% height */}
           <div className="flex-[0.1] flex items-start justify-start">
             {ragAnswer && (
               <p className="text-green-500 text-left whitespace-pre-line">Answer: {ragAnswer}</p>
             )}
           </div>
-
           {/* AI section - 20% height */}
           <div className="flex-[0.1] flex items-start justify-start">
             {aiAnswer && (
