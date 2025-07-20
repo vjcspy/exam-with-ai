@@ -19,9 +19,8 @@ export default function Home() {
   const dispatch = useAppDispatch();
   const { showAlignment } = useAppSelector((state) => state.ui);
   const alignment = useAppSelector((state) => state.alignment);
-  const { sampleText } = useAppSelector((state) => state.content);
   const { job } = useAppSelector((state) => state.job);
-  const currentImage = useCurrentImage();
+  const { imageUrl } = useCurrentImage();
   const { capture, loading } = useJobActions();
 
   const {
@@ -39,13 +38,13 @@ export default function Home() {
   }, [dispatch]);
 
   const ImageBlock = useMemo(() => {
-    if (!currentImage) return <>{JSON.stringify(job, null, 2)}</>;
+    if (!imageUrl) return <>{JSON.stringify(job, null, 2)}</>;
     if (showAlignment) {
-      return <ImageWithSelection imageSrc={currentImage} />;
+      return <ImageWithSelection imageSrc={imageUrl} />;
     } else {
-      return <ImageTextToggle imageSrc={currentImage} text={sampleText} />;
+      return <ImageTextToggle imageSrc={imageUrl} />;
     }
-  }, [showAlignment, sampleText, currentImage, job]);
+  }, [showAlignment, imageUrl, job]);
 
   return (
     <div className="flex flex-col h-screen bg-background text-foreground">

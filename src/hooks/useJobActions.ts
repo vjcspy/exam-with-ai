@@ -48,5 +48,17 @@ export const useJobActions = () => {
     }
   }, [captureMode, captureWithProvider, dispatch]);
 
+  //curl --location --request POST 'https://metan.bluestone.systems/image-question-jobs/answer' \
+  // --header 'Content-Type: application/json' \
+  // --data-raw '{
+  //     "image_filename": "c77860b00bfc935ed1b295350913a00806e0a74348822e58715fc3195108c308.png",
+  //     "alignment": {
+  //         "bottom": 63,
+  //         "left": 18,
+  //         "right": 75,
+  //         "top": 7
+  //     }
+  // }'
+
   return { capture, loading, error };
 };
