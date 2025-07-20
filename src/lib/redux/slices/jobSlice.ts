@@ -13,6 +13,8 @@ export type JobState = {
   captureWithProvider: CaptureWithProvider;
   runtimeMode: RuntimeMode;
   selectedImageKey: string | null;
+  loading: boolean;
+  error: Error | null;
 };
 const initialState: JobState = {
   job: null,
@@ -20,6 +22,8 @@ const initialState: JobState = {
   captureWithProvider: 'DirectX',
   runtimeMode: 'CLI',
   selectedImageKey: null,
+  loading: false,
+  error: null,
 };
 
 export const jobSlice = createSlice({
@@ -38,11 +42,24 @@ export const jobSlice = createSlice({
     setRuntimeMode(state, action: PayloadAction<RuntimeMode>) {
       state.runtimeMode = action.payload;
     },
+    setLoading(state, action: PayloadAction<boolean>) {
+      state.loading = action.payload;
+    },
+    setError(state, action: PayloadAction<Error | null>) {
+      state.error = action.payload;
+    },
   },
 });
 
 // Export actions
-export const { setJob, setCaptureMode, setCaptureWithProvider, setRuntimeMode } = jobSlice.actions;
+export const {
+  setJob,
+  setCaptureMode,
+  setCaptureWithProvider,
+  setRuntimeMode,
+  setLoading,
+  setError,
+} = jobSlice.actions;
 
 // Export reducer
 export default jobSlice.reducer;

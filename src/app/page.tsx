@@ -11,7 +11,7 @@ import { NavigationBar } from '@/components/navigation-bar';
 import { useCurrentImage } from '@/hooks/useCurrentImage';
 import { useImageAlignmentActions } from '@/hooks/useImageAlignmentActions';
 import { useJobActions } from '@/hooks/useJobActions';
-import { setShowAlignment, toggleAlignment } from '@/lib/redux/slices/uiSlice';
+import { setShowAlignment } from '@/lib/redux/slices/uiSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/store';
 import { jobProcessor } from '@/lib/services/JobProcessor';
 
@@ -21,15 +21,11 @@ export default function Home() {
   const alignment = useAppSelector((state) => state.alignment);
   const { job } = useAppSelector((state) => state.job);
   const { imageUrl } = useCurrentImage();
-  const { capture, loading } = useJobActions();
+  const { capture, loading, askRAG } = useJobActions();
 
   const {
-    actions: { handleAlignmentChange },
+    actions: { handleAlignmentChange, handleToggleAlignment },
   } = useImageAlignmentActions();
-
-  const handleToggleAlignment = () => {
-    dispatch(toggleAlignment());
-  };
 
   useEffect(() => {
     // Provide the dispatch function to the JobProcessor
@@ -38,7 +34,7 @@ export default function Home() {
   }, [dispatch]);
 
   const ImageBlock = useMemo(() => {
-    if (!imageUrl) return <>{JSON.stringify(job, null, 2)}</>;
+    if (!imageUrl) return <pre>{JSON.stringify(job, null, 2)}</pre>;
     if (showAlignment) {
       return <ImageWithSelection imageSrc={imageUrl} />;
     } else {
@@ -77,7 +73,7 @@ export default function Home() {
                 <ActionButton className="w-full h-full" onClick={capture} disabled={loading}>
                   <div className="w-full h-full flex items-center justify-center gap-2">
                     <Camera size={16} />
-                    <span>{loading ? 'Capturing...' : 'Capture'}</span>
+                    <span>{loading ? 'Loading...' : 'Capture'}</span>
                   </div>
                 </ActionButton>
 
@@ -90,20 +86,17 @@ export default function Home() {
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <ActionButton
-                  className="w-full h-full"
-                  onClick={() => console.log('ASK RAG clicked')}
-                >
+                <ActionButton className="w-full h-full" onClick={askRAG} disabled={loading}>
                   <div className="w-full h-full flex items-center justify-center gap-2">
                     <BrainCircuit size={16} />
-                    <span>ASK RAG</span>
+                    <span>{loading ? 'Loading...' : 'ASK RAG'}</span>
                   </div>
                 </ActionButton>
 
                 <ActionButton className="w-full h-full" onClick={() => console.log('ASK clicked')}>
                   <div className="w-full h-full flex items-center justify-center gap-2">
                     <MessageSquare size={16} />
-                    <span>ASK</span>
+                    <span>{loading ? 'Loading...' : 'ASK AI'}</span>
                   </div>
                 </ActionButton>
               </div>

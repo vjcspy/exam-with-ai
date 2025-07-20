@@ -2,6 +2,7 @@ import { debounce } from 'es-toolkit';
 import { useEffect, useMemo } from 'react';
 
 import { setAlignment } from '@/lib/redux/slices/alignmentSlice';
+import { setShowImage, toggleAlignment } from '@/lib/redux/slices/uiSlice';
 import { useAppDispatch } from '@/lib/redux/store';
 
 export const useImageAlignmentActions = () => {
@@ -13,6 +14,10 @@ export const useImageAlignmentActions = () => {
       }, 100),
     [dispatch]
   );
+  const handleToggleAlignment = () => {
+    dispatch(setShowImage(true));
+    dispatch(toggleAlignment());
+  };
 
   const handleAlignmentChange = (newAlignment: {
     top: number;
@@ -36,5 +41,5 @@ export const useImageAlignmentActions = () => {
     };
   }, [debouncedSetAlignment]);
 
-  return { actions: { handleAlignmentChange } };
+  return { actions: { handleAlignmentChange, handleToggleAlignment } };
 };

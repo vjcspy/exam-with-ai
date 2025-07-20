@@ -1,24 +1,33 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 
+import { useShowImageActions } from '@/hooks/useShowImageActions';
 import { IJob } from '@/lib/model/job';
-import { setJob } from '@/lib/redux/slices/jobSlice';
+import { setError, setJob, setLoading } from '@/lib/redux/slices/jobSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/redux/store';
+import { JobStatus } from '@/lib/types/job';
 import { fetchData } from '@/lib/utils';
 import { CommonValue } from '@/lib/values/common.value';
 
+import { useCurrentImage } from './useCurrentImage';
+
 export const useJobActions = () => {
   const dispatch = useAppDispatch();
-  const { captureMode, captureWithProvider } = useAppSelector((state) => state.job);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
+  const { captureMode, captureWithProvider, loading, error } = useAppSelector((state) => state.job);
+  const alignment = useAppSelector((state) => state.alignment);
+  const { imageName } = useCurrentImage();
+  const {
+    actions: { forceShowTextAction, forceShowImageAction },
+  } = useShowImageActions();
 
   const capture = useCallback(async () => {
-    setLoading(true);
-    setError(null);
+    dispatch(setLoading(true));
+    dispatch(setError(null));
     try {
+      forceShowImageAction();
       const url = CommonValue.getJobUrl();
       const body = {
         error_message: null,
+        status: JobStatus.AGENT_SCREEN_CAPTURE,
         data: {
           capture_mode: captureMode,
           capture_with_provider: captureWithProvider,
@@ -40,25 +49,56 @@ export const useJobActions = () => {
       dispatch(setJob(data as IJob));
       return data;
     } catch (err: any) {
-      setError(err);
+      dispatch(setError(err));
       console.error('Failed to capture job:', err);
       return null;
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        dispatch(setLoading(false));
+      }, 3000);
     }
-  }, [captureMode, captureWithProvider, dispatch]);
+  }, [captureMode, captureWithProvider, dispatch, forceShowTextAction]);
 
-  //curl --location --request POST 'https://metan.bluestone.systems/image-question-jobs/answer' \
-  // --header 'Content-Type: application/json' \
-  // --data-raw '{
-  //     "image_filename": "c77860b00bfc935ed1b295350913a00806e0a74348822e58715fc3195108c308.png",
-  //     "alignment": {
-  //         "bottom": 63,
-  //         "left": 18,
-  //         "right": 75,
-  //         "top": 7
-  //     }
-  // }'
+  const askRAG = useCallback(async () => {
+    dispatch(setLoading(true));
+    dispatch(setError(null));
+    try {
+      forceShowTextAction();
+      const url = CommonValue.getJobRagAIAnswerUrl();
+      const body = {
+        image_filename: imageName,
+        alignment: {
+          bottom: alignment.bottom,
+          left: alignment.left,
+          right: alignment.right,
+          top: alignment.top,
+        },
+      };
+      console.log('Ask RAG with body: ', body);
+      const [data, fetchError] = await fetchData(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
+      console.log('Ask RAG successfully with response ', data);
 
-  return { capture, loading, error };
+      if (fetchError) {
+        throw fetchError;
+      }
+
+      return data;
+    } catch (err: any) {
+      dispatch(setError(err));
+      console.error('Failed to answer image question:', err);
+      return null;
+    } finally {
+      setTimeout(() => {
+        dispatch(setLoading(false));
+      }, 3000);
+    }
+  }, [imageName, alignment, dispatch, forceShowTextAction]);
+
+  return { capture, askRAG, loading, error };
 };

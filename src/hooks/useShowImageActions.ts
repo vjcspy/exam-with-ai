@@ -11,10 +11,14 @@ export const useShowImageActions = () => {
   const forceShowTextAction = useCallback(() => {
     dispatch(setShowImage(false));
   }, [dispatch]);
+  const forceShowImageAction = useCallback(() => {
+    dispatch(setShowImage(true));
+  }, [dispatch]);
   return {
     actions: {
       toggleImageAction,
       forceShowTextAction,
+      forceShowImageAction,
     },
   };
 };
