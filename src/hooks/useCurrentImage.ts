@@ -7,8 +7,8 @@ export const useCurrentImage = () => {
   if (!jobState.job) {
     return {};
   }
-  let imageName = null;
-  let imageUrl = null;
+  let imageName: null | string;
+  let imageUrl: null | string;
 
   if (jobState.selectedImageKey != null) {
     imageName = jobState.job.data[jobState.selectedImageKey];

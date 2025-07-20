@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import { useShowImageActions } from '@/hooks/useShowImageActions';
 import { IJob } from '@/lib/model/job';
@@ -12,12 +12,44 @@ import { useCurrentImage } from './useCurrentImage';
 
 export const useJobActions = () => {
   const dispatch = useAppDispatch();
-  const { captureMode, captureWithProvider, loading, error } = useAppSelector((state) => state.job);
+  const { captureMode, captureWithProvider, loading, error, autoAskRag } = useAppSelector(
+    (state) => state.job
+  );
   const alignment = useAppSelector((state) => state.alignment);
   const { imageName } = useCurrentImage();
   const {
     actions: { forceShowTextAction, forceShowImageAction },
   } = useShowImageActions();
+  const { job, forceCapture } = useAppSelector((state) => state.job);
+
+  const isDisabledCapture = useMemo(() => {
+    if (loading) {
+      return true;
+    }
+
+    if (forceCapture) {
+      return false;
+    }
+
+    if (job?.status === JobStatus.AGENT_SCREEN_CAPTURE) {
+      return true;
+    }
+    return false;
+  }, [job, loading, forceCapture]);
+
+  const isDisableAskRAG = useMemo(() => {
+    if (!imageName || loading) {
+      return true;
+    }
+    if (job?.status === JobStatus.COMPLETE) {
+      return true;
+    }
+    if (job?.status === JobStatus.AGENT_AI && !!job?.data?.processing_status) {
+      return true;
+    }
+
+    return false;
+  }, [job, loading, imageName]);
 
   const capture = useCallback(async () => {
     dispatch(setLoading(true));
@@ -100,5 +132,16 @@ export const useJobActions = () => {
     }
   }, [imageName, alignment, dispatch, forceShowTextAction]);
 
-  return { capture, askRAG, loading, error };
+  useEffect(() => {
+    if (!autoAskRag) {
+      return;
+    }
+    if (!!imageName) {
+      if (job?.status === JobStatus.AGENT_SCREEN_CAPTURE) {
+        askRAG();
+      }
+    }
+  }, [job, imageName, askRAG, autoAskRag]);
+
+  return { capture, askRAG, loading, error, state: { isDisabledCapture, isDisableAskRAG } };
 };

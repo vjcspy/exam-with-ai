@@ -21,7 +21,12 @@ export default function Home() {
   const alignment = useAppSelector((state) => state.alignment);
   const { job } = useAppSelector((state) => state.job);
   const { imageUrl } = useCurrentImage();
-  const { capture, loading, askRAG } = useJobActions();
+  const {
+    capture,
+    loading,
+    askRAG,
+    state: { isDisableAskRAG, isDisabledCapture },
+  } = useJobActions();
 
   const {
     actions: { handleAlignmentChange, handleToggleAlignment },
@@ -70,10 +75,14 @@ export default function Home() {
           ) : (
             <div className="h-full grid grid-rows-2 gap-4">
               <div className="grid grid-cols-2 gap-4">
-                <ActionButton className="w-full h-full" onClick={capture} disabled={loading}>
+                <ActionButton
+                  className="w-full h-full"
+                  onClick={capture}
+                  disabled={isDisabledCapture}
+                >
                   <div className="w-full h-full flex items-center justify-center gap-2">
                     <Camera size={16} />
-                    <span>{loading ? 'Loading...' : 'Capture'}</span>
+                    <span>{isDisabledCapture ? 'DISABLED' : 'Capture'}</span>
                   </div>
                 </ActionButton>
 
@@ -86,10 +95,10 @@ export default function Home() {
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <ActionButton className="w-full h-full" onClick={askRAG} disabled={loading}>
+                <ActionButton className="w-full h-full" onClick={askRAG} disabled={isDisableAskRAG}>
                   <div className="w-full h-full flex items-center justify-center gap-2">
                     <BrainCircuit size={16} />
-                    <span>{loading ? 'Loading...' : 'ASK RAG'}</span>
+                    <span>{isDisableAskRAG ? 'DISABLED' : 'ASK RAG'}</span>
                   </div>
                 </ActionButton>
 

@@ -1,3 +1,5 @@
 export enum JobStatus {
   AGENT_SCREEN_CAPTURE = 'AGENT_SCREEN_CAPTURE',
+  AGENT_AI = 'AGENT_AI',
+  COMPLETE = 'COMPLETE',
 }
