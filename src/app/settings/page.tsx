@@ -100,11 +100,10 @@ export default function Settings() {
             <Select
               label="Runtime Mode"
               value={jobState.runtimeMode}
-              onChange={(e) => dispatch(setRuntimeMode(e.target.value as 'CLI' | 'SERVICE'))}
+              onChange={(e) => dispatch(setRuntimeMode(e.target.value as 'USER_SESSION'))}
               className="w-full"
             >
-              <option value="CLI">CLI</option>
-              <option value="SERVICE">SERVICE</option>
+              <option value="CLI">USER_SESSION</option>
             </Select>
           </div>
 

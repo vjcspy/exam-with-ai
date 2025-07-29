@@ -4,7 +4,7 @@ import { IJob } from '@/lib/model/job';
 
 type CaptureMode = 'specific' | 'all';
 type CaptureWithProvider = 'DirectX' | null;
-type RuntimeMode = 'CLI' | 'SERVICE';
+type RuntimeMode = 'USER_SESSION';
 
 // Helper functions for localStorage
 const STORAGE_KEY = 'exam-with-ai-config';
