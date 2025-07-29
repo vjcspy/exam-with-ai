@@ -91,7 +91,10 @@ export default function Settings() {
               className="w-full"
             >
               <option value="">None</option>
+              <option value="WGC">WGC</option>
               <option value="DirectX">DirectX</option>
+              <option value="WinAPI">WinAPI</option>
+              <option value="GDI">GDI</option>
             </Select>
           </div>
 
