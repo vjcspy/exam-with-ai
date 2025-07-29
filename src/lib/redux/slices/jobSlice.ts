@@ -50,7 +50,7 @@ const initialState: JobState = {
   job: null,
   captureMode: storedConfig?.captureMode || 'specific',
   captureWithProvider: storedConfig?.captureWithProvider || 'DirectX',
-  runtimeMode: storedConfig?.runtimeMode || 'CLI',
+  runtimeMode: 'USER_SESSION',
   forceCapture: storedConfig?.forceCapture || false,
   autoAskRag: storedConfig?.autoAskRag || false,
   selectedImageKey: null,

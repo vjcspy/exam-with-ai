@@ -40,7 +40,12 @@ export default function Home() {
   }, [dispatch]);
 
   const ImageBlock = useMemo(() => {
-    if (!imageUrl) return <pre>{JSON.stringify(job, null, 2)}</pre>;
+    if (!imageUrl)
+      return (
+        <pre className="whitespace-pre-wrap break-words overflow-auto max-w-full">
+          {JSON.stringify(job, null, 2)}
+        </pre>
+      );
     if (showAlignment) {
       return <ImageWithSelection imageSrc={imageUrl} />;
     } else {
