@@ -42,7 +42,7 @@ export default function Home() {
   const ImageBlock = useMemo(() => {
     if (!imageUrl)
       return (
-        <pre className="whitespace-pre-wrap break-words overflow-auto max-w-full">
+        <pre className="whitespace-pre-wrap break-words overflow-auto max-w-full h-full bg-secondary/20 p-2 rounded-sm text-xs">
           {JSON.stringify(job, null, 2)}
         </pre>
       );
