@@ -1,7 +1,7 @@
 'use client';
 
 import { AlignCenter, BrainCircuit, Camera, MessageSquare } from 'lucide-react';
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { ActionButton } from '@/components/action-button';
 import { ConfirmActionButton } from '@/components/confirm-action-button';
@@ -22,6 +22,8 @@ export default function Home() {
   const alignment = useAppSelector((state) => state.alignment);
   const { job } = useAppSelector((state) => state.job);
   const { imageUrl } = useCurrentImage();
+  const [copyFeedback, setCopyFeedback] = useState<'idle' | 'copied' | 'no-question'>('idle');
+
   const {
     capture,
     loading,
@@ -38,6 +40,65 @@ export default function Home() {
     jobProcessor.setDispatch(dispatch);
     jobProcessor.start();
   }, [dispatch]);
+
+  // const hasQuestion = useMemo(() => {
+  //   const question = job?.data?.question;
+  //   return question && (typeof question !== 'string' || question.trim().length > 0);
+  // }, [job]);
+
+  useEffect(() => {
+    const question = job?.data?.question;
+    if (question && (typeof question !== 'string' || question.trim().length > 0)) {
+      if (copyFeedback === 'no-question') {
+        setCopyFeedback('idle');
+      }
+    }
+  }, [job, copyFeedback, setCopyFeedback]);
+
+  const handleCopyQuestion = useCallback(async () => {
+    try {
+      const question = job?.data?.question;
+      if (!question || (typeof question === 'string' && question.trim().length === 0)) {
+        setCopyFeedback('no-question');
+        setTimeout(() => setCopyFeedback('idle'), 2000);
+        console.warn('No question available to copy');
+        return;
+      }
+
+      const text = typeof question === 'string' ? question : JSON.stringify(question);
+
+      if (navigator?.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        setCopyFeedback('copied');
+        setTimeout(() => setCopyFeedback('idle'), 2000);
+        console.log('Question copied to clipboard');
+        return;
+      }
+
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.setAttribute('readonly', '');
+      textarea.style.position = 'fixed';
+      textarea.style.left = '-9999px';
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      setCopyFeedback('copied');
+      setTimeout(() => setCopyFeedback('idle'), 2000);
+      console.log('Question copied to clipboard (fallback)');
+    } catch (error) {
+      console.error('Failed to copy question to clipboard:', error);
+      setCopyFeedback('idle');
+    }
+  }, [job]);
+
+  const getCopyButtonText = useCallback(() => {
+    if (loading) return 'Loading...';
+    if (copyFeedback === 'copied') return 'Copied!';
+    if (copyFeedback === 'no-question') return 'No Question';
+    return 'Copy Question';
+  }, [loading, copyFeedback]);
 
   const ImageBlock = useMemo(() => {
     if (!imageUrl)
@@ -114,10 +175,14 @@ export default function Home() {
                   }
                 />
 
-                <ActionButton className="w-full h-full" onClick={() => console.log('ASK clicked')}>
+                <ActionButton
+                  className="w-full h-full"
+                  onClick={handleCopyQuestion}
+                  disabled={copyFeedback !== 'idle'}
+                >
                   <div className="w-full h-full flex items-center justify-center gap-2">
                     <MessageSquare size={16} />
-                    <span>{loading ? 'Loading...' : 'ASK AI'}</span>
+                    <span>{getCopyButtonText()}</span>
                   </div>
                 </ActionButton>
               </div>
